@@ -1,0 +1,71 @@
+A) Projeto do banco de dados - Controlando a versão do banco de dados
+
+a1) instalar o sqlc
+a2) gerar estrutura de pastas e arquivos de migrações  
+   >migrate create -ext=sql -dir=sql/migrations -seq init
+a3) >migrate -path=sql/migrations -database "mysql://root:root@tcp(localhost:3306)/orders" -verbose up
+a4) automatizar com makefile
+   make migrate
+   make migratedown
+
+
+
+
+B) PROJETO GRAPHQL  <<<<<<=======
+b1) Geração do tools.go para o graphql
+   >printf '// +build tools\npackage tools\nimport (_ "github.com/99designs/gqlgen"\n _ "github.com/99designs/gqlgen/graphql/introspection")' | gofmt > tools.go
+b2) para baixar as dependências do graphql  >go mod tidy   - 
+b3) iniciar estrutura de pastas p/graphql   >go run github.com/99designs/gqlgen init
+b4) definir o schema (schema.graphqls) do seu banco e gerar o esqueleto p/graphql
+b5) execute os comandos seguintes na pasta do graphql
+   cleanarq/internal/graph>go run github.com/99designs/gqlgen init //pra iniciar a estrutura
+   cleanarq/internal/graph>go run github.com/99designs/gqlgen generate
+ b6) editar os arquivos schema.resolvers.go e resolver.go  
+
+
+
+C) PROJETO  GRPC - protoc     <<<<<<========
+  c1) apt install -y protobuf-compiler
+  protoc --version
+  c2) go install google.golang.org/protobuf/cmd/proto-gen-go@v1.28
+  c3) go install google.golang.org/grpc/cmd/proto-gen-go-grpc@v1.2
+   
+  c4) editar o seu arquivo .proto   (protofiles/order.proto)
+  c5) posicione no diretorio do projeto e executar o protoc (compilador protoc)
+     cleanarq$>protoc --go_out=. --go-grpc_out=. protofiles/order.proto
+  c6) cria ou editar o arquivo order_service.go na pasta service 
+
+
+WIRE - GESTÃO DE dependências <<<<<<<==================
+   1) Instalar o wire
+     >go install github.com/google/wire/cmd/wire@latest 
+   2) Criar ou editar o arquivo wire.go das dependências
+   
+   3) posicionar prompty na pasta do wire   
+   4) gerar o arquivo wire_gen.go com injeção de dependencias
+      >wire
+
+
+LEVANTAR OS  SERVIÇOS: HTTP E GRPC
+   1) posicionar o prompty em: cd cmd/ordersystem
+   2) Levantar os servidores web e grpc
+      >go run main.go wire_gen.go
+
+consumir serviço web
+     http://localhost:8000/list
+
+consumir serviço graphql
+     http://localhost:8080
+
+consumir serviço grpc
+     cleanarq>evans -r repl
+
+
+
+GRPC
+
+
+
+
+
+

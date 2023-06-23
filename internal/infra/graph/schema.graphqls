@@ -1,0 +1,23 @@
+type Order {
+  id: Int!
+  Descricao: String!
+  Preco: Float!
+  Taxa: Float!
+  PrecoTotal: Float!
+}
+
+
+
+input OrderInput {
+  Descricao: String!
+  Preco: Float!
+  Taxa: Float!
+}
+
+type Mutation {
+  createOrder(input: OrderInput): Order
+}
+
+type Query {
+  ListOrders:[Order]!
+}

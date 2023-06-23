@@ -1,0 +1,13 @@
+version: 2
+sql:
+- schema: "sqlc/sql/migrations"
+  queries: "sqlc/sql/queries"
+  engine: "mysql"
+  gen:
+    go:
+      package: "db"
+      out:  "internal/db"
+      overrides:
+        - db_type: "decimal"
+          go_type:  "float64"
+            
