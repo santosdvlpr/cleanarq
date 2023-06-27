@@ -13,13 +13,13 @@ import (
 	"github.com/santosdvlpr/cleanarq/configs"
 	"github.com/santosdvlpr/cleanarq/internal/event/handler"
 	"github.com/santosdvlpr/cleanarq/internal/infra/graph"
-
 	"github.com/santosdvlpr/cleanarq/internal/infra/grpc/pb"
 	"github.com/santosdvlpr/cleanarq/internal/infra/grpc/service"
-	"github.com/santosdvlpr/cleanarq/internal/infra/web/webserver"
-	"github.com/santosdvlpr/cleanarq/pkg/events"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
+
+	"github.com/santosdvlpr/cleanarq/internal/infra/web/webserver"
+	"github.com/santosdvlpr/cleanarq/pkg/events"
 
 	// mysql
 	_ "github.com/go-sql-driver/mysql"
@@ -46,7 +46,7 @@ func init() {
 
 	// Create a new migrate instance with the driver and the source of migrations
 	m, err := migrate.New(
-		"file://../../sqlc/sql/migrations/",          // path to migration files
+		"file://../../sqlc/sql/migrations/",            // path to migration files
 		"mysql://root:root@tcp(localhost:3306)/orders", // name of the database
 		//driver,                                // driver instance
 	)
@@ -70,7 +70,7 @@ func main() {
 	}
 
 	//2) Conectar ao banco de dados
-	fmt.Printf("%s:%s@tcp(%s:%s)/%s", configs.DBUser, configs.DBPassword, configs.DBHost, configs.DBPort, configs.DBName)
+	//fmt.Printf("%s:%s@tcp(%s:%s)/%s", configs.DBUser, configs.DBPassword, configs.DBHost, configs.DBPort, configs.DBName)
 	db, err := sql.Open(configs.DBDriver, fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", configs.DBUser, configs.DBPassword, configs.DBHost, configs.DBPort, configs.DBName))
 	if err != nil {
 		panic(err)
